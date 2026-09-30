@@ -1,4 +1,4 @@
-# messager
+# message queue
 
 I wanted to know what actually happens inside a message broker between "publish" and "ack", so I built one. messager is a single Go binary. You send it messages over gRPC, it writes them to disk, and it pushes them to consumers that hold a stream open. It retries a message when a consumer fails it, and it sets aside messages that keep failing.
 
