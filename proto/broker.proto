@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package broker;
+option go_package = "github.com/yashgupta/message-queue";
+
+message Header {
+  string key   = 1;
+  string value = 2;
+}
+
+message Message {
+  string          id                = 1;
+  string          queue             = 2;
+  bytes           payload           = 3;
+  repeated Header headers           = 4;
+  int32           retry_count       = 5;
+  int64           enqueue_time_unix = 6;
+}
+
+message PublishRequest {
+  string          queue   = 1;
+  bytes           payload = 2;
+  repeated Header headers = 3;
+}
+
+message PublishResponse {
+  string message_id = 1;
+}
+
+message SubscribeRequest {
+  string queue          = 1;
+  int32  prefetch_limit = 2;
+}
+
+enum AckOutcome {
+  ACK  = 0;
+  NACK = 1;
+}
+
+message AckRequest {
+  string     message_id = 1;
+  AckOutcome outcome    = 2;
+}
+
+message SubscribeEvent {
+  oneof event {
+    Message message = 1;
+  }
+}
+
+message ConsumerMessage {
+  oneof payload {
+    SubscribeRequest subscribe = 1;
+    AckRequest       ack       = 2;
+  }
+}
+
+service Broker {
+  rpc Publish   (PublishRequest)          returns (PublishResponse);
+  rpc Subscribe (stream ConsumerMessage)  returns (stream SubscribeEvent);
+}

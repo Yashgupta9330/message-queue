@@ -1,0 +1,24 @@
+{
+  "name": "messager-node-client",
+  "version": "1.0.0",
+  "description": "Node.js gRPC client for the messager broker — publishes and consumes order events",
+  "main": "dist/index.js",
+  "scripts": {
+    "dev":   "nodemon",
+    "build": "tsc",
+    "start": "node dist/index.js"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.10.0",
+    "@grpc/proto-loader": "^0.7.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.6.0",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3"
+  }
+}
+
